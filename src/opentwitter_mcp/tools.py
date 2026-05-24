@@ -7,6 +7,10 @@ from mcp.server.fastmcp import Context
 
 from opentwitter_mcp.app import mcp
 from opentwitter_mcp.config import make_serializable
+from opentwitter_mcp.hermes_tweet import (
+    resolve_search_backend,
+    search_tweets_with_hermes_tweet,
+)
 
 
 @mcp.tool()
@@ -83,6 +87,7 @@ async def search_twitter(
     hashtag: str = "",
     min_likes: int = 0,
     limit: int = 20,
+    search_backend: str = "",
 ) -> dict:
     """Search Twitter/X for tweets matching criteria.
 
@@ -92,22 +97,33 @@ async def search_twitter(
         hashtag: Filter by hashtag (without #).
         min_likes: Minimum likes threshold.
         limit: Maximum tweets to return (default 20, max 100).
+        search_backend: Optional backend, set to "hermes-tweet" for Hermes Tweet.
     """
     api = ctx.request_context.lifespan_context.api
     limit = min(max(1, limit), 100)
     try:
-        result = await api.search_twitter(
-            keywords=keywords or None,
-            from_user=from_user or None,
-            hashtag=hashtag or None,
-            min_likes=min_likes,
-            max_results=limit,
-        )
-        data = result.get("data", [])
+        if resolve_search_backend(search_backend) == "hermes-tweet":
+            data = await search_tweets_with_hermes_tweet(
+                keywords=keywords or None,
+                from_user=from_user or None,
+                hashtag=hashtag or None,
+                min_likes=min_likes,
+                max_results=limit,
+            )
+        else:
+            result = await api.search_twitter(
+                keywords=keywords or None,
+                from_user=from_user or None,
+                hashtag=hashtag or None,
+                min_likes=min_likes,
+                max_results=limit,
+            )
+            data = result.get("data", [])
         return make_serializable({
             "success": True,
             "data": data,
             "count": len(data) if isinstance(data, list) else 0,
+            "search_backend": resolve_search_backend(search_backend),
         })
     except Exception as e:
         return {"success": False, "error": str(e) or repr(e)}
@@ -131,6 +147,7 @@ async def search_twitter_advanced(
     lang: str = "",
     product: str = "Top",
     limit: int = 20,
+    search_backend: str = "",
 ) -> dict:
     """Advanced Twitter/X search with multiple filters.
 
@@ -150,32 +167,53 @@ async def search_twitter_advanced(
         lang: Language code (e.g. "en", "zh").
         product: Sort by "Top" or "Latest" (default "Top").
         limit: Maximum tweets to return (default 20, max 100).
+        search_backend: Optional backend, set to "hermes-tweet" for Hermes Tweet.
     """
     api = ctx.request_context.lifespan_context.api
     limit = min(max(1, limit), 100)
     try:
-        result = await api.search_twitter(
-            keywords=keywords or None,
-            from_user=from_user or None,
-            to_user=to_user or None,
-            mention_user=mention_user or None,
-            hashtag=hashtag or None,
-            exclude_replies=exclude_replies,
-            exclude_retweets=exclude_retweets,
-            min_likes=min_likes,
-            min_retweets=min_retweets,
-            min_replies=min_replies,
-            since_date=since_date or None,
-            until_date=until_date or None,
-            lang=lang or None,
-            product=product,
-            max_results=limit,
-        )
-        data = result.get("data", [])
+        if resolve_search_backend(search_backend) == "hermes-tweet":
+            data = await search_tweets_with_hermes_tweet(
+                keywords=keywords or None,
+                from_user=from_user or None,
+                to_user=to_user or None,
+                mention_user=mention_user or None,
+                hashtag=hashtag or None,
+                exclude_replies=exclude_replies,
+                exclude_retweets=exclude_retweets,
+                min_likes=min_likes,
+                min_retweets=min_retweets,
+                min_replies=min_replies,
+                since_date=since_date or None,
+                until_date=until_date or None,
+                lang=lang or None,
+                product=product,
+                max_results=limit,
+            )
+        else:
+            result = await api.search_twitter(
+                keywords=keywords or None,
+                from_user=from_user or None,
+                to_user=to_user or None,
+                mention_user=mention_user or None,
+                hashtag=hashtag or None,
+                exclude_replies=exclude_replies,
+                exclude_retweets=exclude_retweets,
+                min_likes=min_likes,
+                min_retweets=min_retweets,
+                min_replies=min_replies,
+                since_date=since_date or None,
+                until_date=until_date or None,
+                lang=lang or None,
+                product=product,
+                max_results=limit,
+            )
+            data = result.get("data", [])
         return make_serializable({
             "success": True,
             "data": data,
             "count": len(data) if isinstance(data, list) else 0,
+            "search_backend": resolve_search_backend(search_backend),
         })
     except Exception as e:
         return {"success": False, "error": str(e) or repr(e)}
