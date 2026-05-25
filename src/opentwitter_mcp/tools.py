@@ -7,9 +7,9 @@ from mcp.server.fastmcp import Context
 
 from opentwitter_mcp.app import mcp
 from opentwitter_mcp.config import make_serializable
-from opentwitter_mcp.hermes_tweet import (
+from opentwitter_mcp.xquik_search import (
     resolve_search_backend,
-    search_tweets_with_hermes_tweet,
+    search_tweets_with_xquik,
 )
 
 
@@ -97,13 +97,13 @@ async def search_twitter(
         hashtag: Filter by hashtag (without #).
         min_likes: Minimum likes threshold.
         limit: Maximum tweets to return (default 20, max 100).
-        search_backend: Optional backend, set to "hermes-tweet" for Hermes Tweet.
+        search_backend: Optional backend, set to "xquik" for Xquik.
     """
     api = ctx.request_context.lifespan_context.api
     limit = min(max(1, limit), 100)
     try:
-        if resolve_search_backend(search_backend) == "hermes-tweet":
-            data = await search_tweets_with_hermes_tweet(
+        if resolve_search_backend(search_backend) == "xquik":
+            data = await search_tweets_with_xquik(
                 keywords=keywords or None,
                 from_user=from_user or None,
                 hashtag=hashtag or None,
@@ -167,13 +167,13 @@ async def search_twitter_advanced(
         lang: Language code (e.g. "en", "zh").
         product: Sort by "Top" or "Latest" (default "Top").
         limit: Maximum tweets to return (default 20, max 100).
-        search_backend: Optional backend, set to "hermes-tweet" for Hermes Tweet.
+        search_backend: Optional backend, set to "xquik" for Xquik.
     """
     api = ctx.request_context.lifespan_context.api
     limit = min(max(1, limit), 100)
     try:
-        if resolve_search_backend(search_backend) == "hermes-tweet":
-            data = await search_tweets_with_hermes_tweet(
+        if resolve_search_backend(search_backend) == "xquik":
+            data = await search_tweets_with_xquik(
                 keywords=keywords or None,
                 from_user=from_user or None,
                 to_user=to_user or None,

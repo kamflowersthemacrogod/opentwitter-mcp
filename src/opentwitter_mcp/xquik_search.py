@@ -1,4 +1,4 @@
-"""Optional Hermes Tweet search backend."""
+"""Optional Xquik search backend."""
 
 import os
 from typing import Any, Optional
@@ -11,18 +11,14 @@ REQUEST_TIMEOUT_SECONDS = 30.0
 
 def resolve_search_backend(value: str = "") -> str:
     """Return the selected search backend."""
-    requested = (
-        value
-        or os.environ.get("TWITTER_SEARCH_BACKEND", "")
-        or os.environ.get("HERMES_TWEET_SEARCH_BACKEND", "")
-    )
+    requested = value or os.environ.get("TWITTER_SEARCH_BACKEND", "")
     normalized = requested.strip().lower().replace("_", "-")
-    if normalized in {"hermes-tweet", "xquik"}:
-        return "hermes-tweet"
+    if normalized == "xquik":
+        return "xquik"
     return "default"
 
 
-async def search_tweets_with_hermes_tweet(
+async def search_tweets_with_xquik(
     *,
     keywords: Optional[str] = None,
     from_user: Optional[str] = None,
@@ -40,7 +36,7 @@ async def search_tweets_with_hermes_tweet(
     product: str = "Top",
     max_results: int = 20,
 ) -> list[dict[str, Any]]:
-    """Search tweets through Hermes Tweet and return OpenTwitter-style records."""
+    """Search tweets through Xquik and return OpenTwitter-style records."""
     api_key = _resolve_api_key()
     url = _build_search_url(
         query=_build_search_query(
@@ -68,16 +64,14 @@ async def search_tweets_with_hermes_tweet(
 
 
 def normalize_search_payload(payload: Any) -> list[dict[str, Any]]:
-    """Normalize supported Hermes Tweet payload shapes into this server's tweet shape."""
+    """Normalize supported Xquik payload shapes into this server's tweet shape."""
     return [_normalize_tweet(tweet) for tweet in _collect_tweets(payload)]
 
 
 def _resolve_api_key() -> str:
-    api_key = os.environ.get("HERMES_TWEET_API_KEY") or os.environ.get("XQUIK_API_KEY")
+    api_key = os.environ.get("XQUIK_API_KEY")
     if not api_key or not api_key.strip():
-        raise ValueError(
-            "Hermes Tweet search requires HERMES_TWEET_API_KEY or XQUIK_API_KEY"
-        )
+        raise ValueError("Xquik search requires XQUIK_API_KEY")
     return api_key.strip()
 
 
@@ -98,9 +92,7 @@ def _build_search_url(
     max_results: int,
 ) -> str:
     base_url = (
-        os.environ.get("HERMES_TWEET_BASE_URL")
-        or os.environ.get("HERMES_TWEET_API_BASE")
-        or os.environ.get("XQUIK_BASE_URL")
+        os.environ.get("XQUIK_BASE_URL")
         or DEFAULT_BASE_URL
     ).rstrip("/")
     params: dict[str, str] = {
