@@ -131,6 +131,18 @@ curl -s -X POST "https://ai.6551.io/open/twitter_search" \
 | `product`        | string  | "Top"   | "Top" or "Latest"                   |
 | `maxResults`     | integer | 20      | Max tweets (1-100)                  |
 
+### Optional Xquik Search Backend
+
+The MCP server can route only `search_twitter` and `search_twitter_advanced`
+through [Xquik](https://xquik.com) while the other tools keep using the default API.
+
+```bash
+export XQUIK_API_KEY="<your-xquik-api-key>"
+export TWITTER_SEARCH_BACKEND="xquik"
+```
+
+For one call, pass `search_backend="xquik"` to either search tool.
+
 ### 5. Get Follower Events
 
 Get new followers or unfollowers for a user.

